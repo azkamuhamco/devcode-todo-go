@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
-	fiberLogger "github.com/gofiber/fiber/v2/middleware/logger"
+	// fiberLogger "github.com/gofiber/fiber/v2/middleware/logger"
 
 	"devcode-todo-go/database"
 	"devcode-todo-go/internal/apps/activity"
@@ -17,7 +17,7 @@ import (
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
+	// "gorm.io/gorm/logger"
 )
 
 func initDB() {
@@ -28,14 +28,14 @@ func initDB() {
 	}
 
 	// Logger GORM https://gorm.io/docs/logger.html
-	var lw *log.Logger = log.New(os.Stderr, "\r\n", log.LstdFlags)
-	newLogger := logger.New(
-		lw,
-		logger.Config{
-			LogLevel: logger.Error, // Log level
-			Colorful: true,         // Enable/disable color
-		},
-	)
+	// var lw *log.Logger = log.New(os.Stderr, "\r\n", log.LstdFlags)
+	// newLogger := logger.New(
+	// 	lw,
+	// 	logger.Config{
+	// 		LogLevel: logger.Error, // Log level
+	// 		Colorful: true,         // Enable/disable color
+	// 	},
+	// )
 
 	// Variabel to connect DB
 	dsn := fmt.Sprintf(`%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local`,
@@ -45,8 +45,8 @@ func initDB() {
 		os.Getenv("MYSQL_PORT"),
 		os.Getenv("MYSQL_DBNAME"))
 
-	// Open DB connection
-	database.DBConn, err = gorm.Open(mysql.Open(dsn), &gorm.Config{Logger: newLogger})
+	// Open DB connection. If use log: &gorm.Config{Logger: newLogger})
+	database.DBConn, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Failed to connect database")
 	}
@@ -59,7 +59,7 @@ func initDB() {
 }
 
 func setupRoutes(app *fiber.App) {
-	app.Use(fiberLogger.New())
+	// app.Use(fiberLogger.New())
 
 	activity.Route(app)
 	todo.Route(app)
