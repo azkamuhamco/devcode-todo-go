@@ -66,7 +66,12 @@ func setupRoutes(app *fiber.App) {
 }
 
 func main() {
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		DisableStartupMessage:        true,
+		DisableKeepalive:             true,
+		StrictRouting:                true,
+		DisablePreParseMultipartForm: true,
+	})
 	initDB()
 	setupRoutes(app)
 
