@@ -24,8 +24,6 @@ func ValidateStruct(data interface{}) []*models.ErrorResponse {
 			}
 
 			element.FailedField = errorField
-			element.Tag = err.Tag()
-			element.Value = err.Param()
 			errors = append(errors, &element)
 		}
 	}
