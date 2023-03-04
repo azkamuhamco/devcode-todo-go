@@ -33,7 +33,7 @@ func initDB() {
 		os.Getenv("MYSQL_PORT"),
 		os.Getenv("MYSQL_DBNAME"))
 
-	// Open DB connection. If use log: &gorm.Config{Logger: newLogger})
+	// Open DB connection
 	database.DBConn, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Failed to connect database")
