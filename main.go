@@ -18,7 +18,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func initDB() {
+func init() {
 	// Load .env file
 	err := godotenv.Load()
 	if err != nil {
@@ -58,7 +58,6 @@ func main() {
 		StrictRouting:                true,
 		DisablePreParseMultipartForm: true,
 	})
-	initDB()
 	setupRoutes(app)
 
 	log.Fatal(app.Listen(":3030"))
