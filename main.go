@@ -7,10 +7,12 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 
-	"devcode-todo-go/database"
 	"devcode-todo-go/internal/apps/activity"
 	"devcode-todo-go/internal/apps/todo"
 	"devcode-todo-go/internal/models"
+	"devcode-todo-go/pkg/configs"
+	"devcode-todo-go/pkg/database"
+	"devcode-todo-go/pkg/middleware"
 
 	"github.com/joho/godotenv"
 
@@ -52,13 +54,16 @@ func setupRoutes(app *fiber.App) {
 }
 
 func main() {
-	app := fiber.New(fiber.Config{
-		DisableStartupMessage:        true,
-		DisableKeepalive:             true,
-		StrictRouting:                true,
-		DisablePreParseMultipartForm: true,
-	})
-	setupRoutes(app)
+	// Define Fiber config.
+	config := configs.FiberConfig()
 
+	// Define a new Fiber app with config.
+	app := fiber.New(config)
+
+	// Middlewares.
+	middleware.FiberMiddleware(app) // Register Fiber's middleware for app.
+
+	// Routes.
+	setupRoutes(app)
 	log.Fatal(app.Listen(":3030"))
 }

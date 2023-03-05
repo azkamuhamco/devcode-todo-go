@@ -1,4 +1,4 @@
-FROM golang:alpine AS builder
+FROM golang:1.20.1-alpine AS builder
 
 LABEL maintainer="Muhammad Azka Ramadhan"
 

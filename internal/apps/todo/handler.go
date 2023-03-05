@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"devcode-todo-go/database"
 	"devcode-todo-go/internal/models"
-	"devcode-todo-go/internal/utils"
+	"devcode-todo-go/pkg/database"
+	"devcode-todo-go/pkg/utils"
 
 	"github.com/gofiber/fiber/v2"
 )
