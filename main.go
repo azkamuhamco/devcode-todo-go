@@ -65,5 +65,7 @@ func main() {
 
 	// Route
 	setupRoutes(app)
-	log.Fatal(app.Listen(":3030"))
+
+	// Listen Port
+	app.Listen(":3030")
 }
