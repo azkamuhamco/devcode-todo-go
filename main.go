@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
@@ -14,19 +13,13 @@ import (
 	"devcode-todo-go/pkg/database"
 	"devcode-todo-go/pkg/middleware"
 
-	"github.com/joho/godotenv"
+	_ "github.com/joho/godotenv/autoload"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 func init() {
-	// Load .env file
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
 	// Variabel to connect DB
 	dsn := fmt.Sprintf(`%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local`,
 		os.Getenv("MYSQL_USER"),
@@ -36,10 +29,7 @@ func init() {
 		os.Getenv("MYSQL_DBNAME"))
 
 	// Open DB connection
-	database.DBConn, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil {
-		log.Fatal("Failed to connect database")
-	}
+	database.DBConn, _ = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	// Auto Migrate
 	database.DBConn.AutoMigrate(
