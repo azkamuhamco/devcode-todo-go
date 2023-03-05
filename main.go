@@ -63,7 +63,7 @@ func main() {
 	// Middlewares.
 	middleware.FiberMiddleware(app) // Register Fiber's middleware for app.
 
-	// Routes.
+	// Route
 	setupRoutes(app)
 	log.Fatal(app.Listen(":3030"))
 }
