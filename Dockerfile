@@ -1,41 +1,29 @@
-# Start from golang base image
-FROM golang:alpine as builder
+FROM golang:alpine AS builder
 
-# Add Maintainer info
 LABEL maintainer="Muhammad Azka Ramadhan"
 
-# Install git.
-# Git is required for fetching the dependencies.
-RUN apk update && apk add --no-cache git
+# Move to working directory (/build).
+WORKDIR /build
 
-# Set the current working directory inside the container 
-WORKDIR /app
-
-# Copy go mod and sum files 
+# Copy and download dependency using go mod.
 COPY go.mod go.sum ./
+RUN go mod download
 
-# Download all dependencies. Dependencies will be cached if the go.mod and the go.sum files are not changed 
-RUN go mod download 
-
-# Copy the source from the current directory to the working Directory inside the container 
+# Copy the code into the container.
 COPY . .
 
-# Build the Go app
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+# Set necessary environment variables needed for our image and build the API server.
+ENV CGO_ENABLED=0 GOOS=linux GOARCH=amd64
+RUN go build -ldflags="-s -w" -o apiserver .
 
-# Start a new stage from scratch
-FROM alpine:latest
-RUN apk --no-cache add ca-certificates
+FROM scratch
 
-WORKDIR /root/
-
-# Copy the Pre-built binary file from the previous stage. Observe we also copied the .env file
-COPY --from=builder /app/main .
-COPY --from=builder /app/.env .
+# Copy binary and config files from /build to root folder of scratch container.
+COPY --from=builder ["/build/apiserver", "/build/.env", "/"]
 
 # Expose port 8080 to the outside world
 EXPOSE 8080
 EXPOSE 3030
 
-#Command to run the executable
-CMD ["./main"]
+# Command to run when starting the container.
+ENTRYPOINT ["/apiserver"]
