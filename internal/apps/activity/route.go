@@ -5,9 +5,9 @@ import (
 )
 
 func Route(app *fiber.App) {
-	app.Get("/activity-groups", GetActivities)
-	app.Post("/activity-groups", CreateActivity)
-	app.Get("/activity-groups/:id", GetActivity)
-	app.Patch("/activity-groups/:id", UpdateActivity)
-	app.Delete("/activity-groups/:id", DeleteActivity)
+	go app.Get("/activity-groups", GetActivities)
+	go app.Post("/activity-groups", CreateActivity)
+	go app.Get("/activity-groups/:id", GetActivity)
+	go app.Patch("/activity-groups/:id", UpdateActivity)
+	go app.Delete("/activity-groups/:id", DeleteActivity)
 }
