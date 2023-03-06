@@ -44,10 +44,8 @@ func setupRoutes(app *fiber.App) {
 }
 
 func main() {
-	// Define Fiber config.
+	// Variable
 	config := configs.FiberConfig()
-
-	// Define a new Fiber app with config.
 	app := fiber.New(config)
 
 	// Middlewares.
