@@ -11,7 +11,6 @@ import (
 	"devcode-todo-go/internal/models"
 	"devcode-todo-go/pkg/configs"
 	"devcode-todo-go/pkg/database"
-	"devcode-todo-go/pkg/middleware"
 
 	_ "github.com/joho/godotenv/autoload"
 
@@ -45,11 +44,7 @@ func setupRoutes(app *fiber.App) {
 
 func main() {
 	// Variable
-	config := configs.FiberConfig()
-	app := fiber.New(config)
-
-	// Middlewares.
-	middleware.FiberMiddleware(app) // Register Fiber's middleware for app.
+	app := fiber.New(configs.FiberConfig())
 
 	// Route
 	setupRoutes(app)
