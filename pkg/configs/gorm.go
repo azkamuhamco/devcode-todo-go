@@ -7,6 +7,7 @@ import (
 
 func GormConfig() *gorm.Config {
 	return &gorm.Config{
+		PrepareStmt:          true,
 		DisableAutomaticPing: true,
 		Logger:               logger.Default.LogMode(logger.Silent),
 	}
