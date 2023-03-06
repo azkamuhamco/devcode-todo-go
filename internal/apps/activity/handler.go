@@ -102,7 +102,9 @@ func UpdateActivity(c *fiber.Ctx) error {
 		})
 	}
 
-	activity.Title = req.Title
+	if req.Title != "" {
+		activity.Title = req.Title
+	}
 	if req.Email != "" {
 		activity.Email = req.Email
 	}
