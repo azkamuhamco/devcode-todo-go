@@ -18,7 +18,9 @@ import (
 
 func init() {
 	// Open DB connection
-	database.DBConn, _ = gorm.Open(mysql.Open(utils.Url()), configs.GormConfig())
+	url := utils.Url()
+	gormC := configs.GormConfig()
+	database.DBConn, _ = gorm.Open(mysql.Open(url), gormC)
 
 	// Auto Migrate
 	database.DBConn.AutoMigrate(
@@ -27,17 +29,14 @@ func init() {
 	)
 }
 
-func setupRoutes(app *fiber.App) {
-	activity.Route(app)
-	todo.Route(app)
-}
-
 func main() {
 	// Variable
-	app := fiber.New(configs.FiberConf())
+	konpig := configs.FiberConf()
+	app := fiber.New(konpig)
 
 	// Route
-	setupRoutes(app)
+	activity.Route(app)
+	todo.Route(app)
 
 	// Listen Port
 	app.Listen(":3030")
