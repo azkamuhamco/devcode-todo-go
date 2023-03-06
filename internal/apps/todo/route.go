@@ -5,9 +5,10 @@ import (
 )
 
 func Route(app *fiber.App) {
-	app.Get("/todo-items", GetTodos)
-	app.Post("/todo-items", CreateTodo)
-	app.Get("/todo-items/:id", GetTodo)
-	app.Patch("/todo-items/:id", UpdateTodo)
-	app.Delete("/todo-items/:id", DeleteTodo)
+	apt := app.Group("/todo-items")
+	apt.Get("", GetTodos)
+	apt.Post("", CreateTodo)
+	apt.Get("/:id", GetTodo)
+	apt.Patch("/:id", UpdateTodo)
+	apt.Delete("/:id", DeleteTodo)
 }
