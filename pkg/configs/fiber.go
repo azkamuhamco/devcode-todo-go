@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -21,5 +22,7 @@ func FiberConf() fiber.Config {
 		DisableKeepalive:             true,
 		StrictRouting:                true,
 		DisablePreParseMultipartForm: true,
+		JSONEncoder:                  json.Marshal,
+		JSONDecoder:                  json.Unmarshal,
 	}
 }
