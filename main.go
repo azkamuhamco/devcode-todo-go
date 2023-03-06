@@ -1,9 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"os"
-
 	"github.com/gofiber/fiber/v2"
 
 	"devcode-todo-go/internal/apps/activity"
@@ -11,6 +8,7 @@ import (
 	"devcode-todo-go/internal/models"
 	"devcode-todo-go/pkg/configs"
 	"devcode-todo-go/pkg/database"
+	"devcode-todo-go/pkg/utils"
 
 	_ "github.com/joho/godotenv/autoload"
 
@@ -19,16 +17,8 @@ import (
 )
 
 func init() {
-	// Variabel to connect DB
-	dsn := fmt.Sprintf(`%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local`,
-		os.Getenv("MYSQL_USER"),
-		os.Getenv("MYSQL_PASSWORD"),
-		os.Getenv("MYSQL_HOST"),
-		os.Getenv("MYSQL_PORT"),
-		os.Getenv("MYSQL_DBNAME"))
-
 	// Open DB connection
-	database.DBConn, _ = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	database.DBConn, _ = gorm.Open(mysql.Open(utils.Url()), configs.GormConfig())
 
 	// Auto Migrate
 	database.DBConn.AutoMigrate(
@@ -44,7 +34,7 @@ func setupRoutes(app *fiber.App) {
 
 func main() {
 	// Variable
-	app := fiber.New(configs.FiberConfig())
+	app := fiber.New(configs.FiberConf())
 
 	// Route
 	setupRoutes(app)
