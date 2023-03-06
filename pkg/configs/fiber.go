@@ -5,9 +5,11 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
+	jsoniter "github.com/json-iterator/go"
 )
+
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 // FiberConfig func for configuration Fiber app.
 // See: https://docs.gofiber.io/api/fiber#config
